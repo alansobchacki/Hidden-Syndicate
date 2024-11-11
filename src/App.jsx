@@ -1,10 +1,19 @@
-import './App.css'
+import Game from "./pages/Game.jsx";
+import Greetings from "./pages/Greetings.jsx";
+import GlobalStyles from "./App.styles.js";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
-    <div id="main-container">
-      <img src="src/assets/egor-klyuchnyk-artwork.jpg" alt="" />
-    </div>
+    <>
+      <GlobalStyles />
+      <Router>
+          <Routes>
+            <Route path="/" element={<Greetings />} />
+            <Route path="/game" element={<Game />} />
+          </Routes>
+      </Router>
+    </>
   )
 }
 

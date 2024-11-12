@@ -8,6 +8,9 @@ export const MainContainer = styled.div`
   overflow-x: hidden; 
 `;
 
+export const GameContainer = styled.div`
+`;
+
 export const GameImage = styled.img`
   width: 100%;
 `;

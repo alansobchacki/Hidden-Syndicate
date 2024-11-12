@@ -1,11 +1,12 @@
 import {
   MainContainer,
+  GameContainer,
   GameImage,
 } from "./Game.styles.js";
-// import { useState } from "react";
+import { useState } from "react";
 
 function Game() {
-  // const [userGuessing, setUserGuessing] = useState(false);
+  const [gameStarted, setGameStarted] = useState(false);
 
   const handleImageClick = (event) => {
     const rect = event.target.getBoundingClientRect();
@@ -15,17 +16,31 @@ function Game() {
     console.log(xPercent, yPercent);
   };
 
+  const handleButtonClick = () => { 
+    setGameStarted(true);
+  }
+
   return (
     <MainContainer>
-      <div>
-        <p>header with directions</p>
-      </div>
+      {!gameStarted && (
+        <>
+          <button onClick={handleButtonClick}>Click me to start the game!</button>
+        </>
+      )}
 
-      <GameImage src="src/assets/egor-klyuchnyk-artwork.jpg" onClick={handleImageClick} alt="" />
+      {gameStarted && (
+        <GameContainer>
+        <div>
+          <p>header with directions</p>
+        </div>
 
-      <div>
-        <p>footer with credits</p>
-      </div>
+        <GameImage src="src/assets/egor-klyuchnyk-artwork.jpg" onClick={handleImageClick} alt="" />
+
+        <div>
+          <p>footer with credits</p>
+        </div>
+      </GameContainer>
+      )}
     </MainContainer>
   )
 }

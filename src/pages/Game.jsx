@@ -1,6 +1,7 @@
 import {
   MainContainer,
   GreetingsContainer,
+  Header,
   GameContainer,
   GameImage,
   GameGuessClick,
@@ -8,15 +9,27 @@ import {
   GameGuessFormSubContainer,
   GameGuessCircle
 } from "./Game.styles.js";
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
 function Game() {
   const [gameStarted, setGameStarted] = useState(false);
   const [imageClicked, setImageClicked] = useState(false);
+  const [timer, setTimer] = useState(0);
   const [clickX, setClickX] = useState(0);
   const [clickY, setClickY] = useState(0);
 
   const gameContainerRef = useRef(null);
+
+  useEffect(() => {
+    let interval;
+    if (gameStarted) {
+      interval = setInterval(() => {
+        setTimer((prevTime) => prevTime + 1);
+      }, 1000);
+    }
+
+    return () => clearInterval(interval);
+  }, [gameStarted]);
 
   const handleImageClick = (event) => {
     setImageClicked(!imageClicked);
@@ -48,9 +61,16 @@ function Game() {
 
       {gameStarted && (
         <GameContainer ref={gameContainerRef}>
-          <div>
-            <p>header with directions</p>
-          </div>
+          <Header>
+            You must find these three characters:
+            <GameGuessCircle />
+            <GameGuessCircle />
+            <GameGuessCircle />
+            The faster you do, the higher you score!
+            <div>
+              {timer}
+            </div>
+          </Header>
 
           {imageClicked && (
             <>

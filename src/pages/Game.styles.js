@@ -16,6 +16,13 @@ export const MainContainer = styled.div`
   overflow-x: hidden; 
 `;
 
+export const Header = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  opacity: 0.8;
+`;
+
 export const GreetingsContainer = styled.div`
 `;
 

@@ -1,48 +1,87 @@
 import {
   MainContainer,
+  GreetingsContainer,
   GameContainer,
   GameImage,
+  GameGuessClick,
+  GameGuessForm,
+  GameGuessFormSubContainer,
+  GameGuessCircle
 } from "./Game.styles.js";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 function Game() {
   const [gameStarted, setGameStarted] = useState(false);
+  const [imageClicked, setImageClicked] = useState(false);
+  const [clickX, setClickX] = useState(0);
+  const [clickY, setClickY] = useState(0);
+
+  const gameContainerRef = useRef(null);
 
   const handleImageClick = (event) => {
-    const rect = event.target.getBoundingClientRect();
-    const xPercent = ((event.clientX - rect.left) / rect.width) * 100;
-    const yPercent = ((event.clientY - rect.top) / rect.height) * 100;
-
-    console.log(xPercent, yPercent);
+    setImageClicked(!imageClicked);
+    getClickCoordinates(event);
   };
 
-  const handleButtonClick = () => { 
+  const handleStartGameClick = () => { 
     setGameStarted(true);
-  }
+  };
+
+  const getClickCoordinates = (event) => {
+    const rect = event.target.getBoundingClientRect();
+
+    let x = event.clientX - rect.left;
+    let y = event.clientY - rect.top;
+
+
+    setClickX(x);
+    setClickY(y);
+  };
 
   return (
     <MainContainer>
       {!gameStarted && (
-        <>
-          <button onClick={handleButtonClick}>Click me to start the game!</button>
-        </>
+        <GreetingsContainer>
+          <button onClick={handleStartGameClick}>Click me to start the game!</button>
+        </GreetingsContainer>
       )}
 
       {gameStarted && (
-        <GameContainer>
-        <div>
-          <p>header with directions</p>
-        </div>
+        <GameContainer ref={gameContainerRef}>
+          <div>
+            <p>header with directions</p>
+          </div>
 
-        <GameImage src="src/assets/egor-klyuchnyk-artwork.jpg" onClick={handleImageClick} alt="" />
+          {imageClicked && (
+            <>
+              <GameGuessClick x={clickX} y={clickY} />
+              <GameGuessForm x={clickX} y={clickY}>
+                Which character have you found?
+                <GameGuessFormSubContainer>
+                  <GameGuessCircle />
+                  Meme
+                </GameGuessFormSubContainer>
+                <GameGuessFormSubContainer>
+                  <GameGuessCircle />
+                  Meme 2
+                </GameGuessFormSubContainer>
+                <GameGuessFormSubContainer>
+                  <GameGuessCircle />
+                  Meme 3
+                </GameGuessFormSubContainer>
+              </GameGuessForm>
+            </>
+          )}
 
-        <div>
-          <p>footer with credits</p>
-        </div>
-      </GameContainer>
+          <GameImage src="src/assets/egor-klyuchnyk-artwork.jpg" onClick={handleImageClick} alt="" />
+
+          <div>
+            <p>footer with credits</p>
+          </div>
+        </GameContainer>
       )}
     </MainContainer>
-  )
+  );
 }
 
 export default Game;

@@ -2,6 +2,7 @@ import {
   MainContainer,
   GreetingsContainer,
   GreetingsMenu,
+  GreetingsTitle,
   GreetingsButton,
   Header,
   GameContainer,
@@ -9,16 +10,18 @@ import {
   GameGuessClick,
   GameGuessForm,
   GameGuessFormSubContainer,
-  GameGuessCircle
+  GameGuessCircle,
+  Footer
 } from "./Game.styles.js";
 import { useState, useEffect, useRef } from "react";
 
 function Game() {
   const [gameStarted, setGameStarted] = useState(false);
+  const [highScores, setHighScores] = useState(false);
   const [imageClicked, setImageClicked] = useState(false);
-  const [timer, setTimer] = useState(0);
   const [clickX, setClickX] = useState(0);
   const [clickY, setClickY] = useState(0);
+  const [timer, setTimer] = useState(0);
 
   const gameContainerRef = useRef(null);
 
@@ -42,6 +45,10 @@ function Game() {
     setGameStarted(true);
   };
 
+  const handleViewHighscoresClick = () => {
+    setHighScores(!highScores);
+  };
+
   const getClickCoordinates = (event) => {
     const rect = event.target.getBoundingClientRect();
 
@@ -58,9 +65,18 @@ function Game() {
       {!gameStarted && (
         <GreetingsContainer>
           <GreetingsMenu>
-            
-            <GreetingsButton onClick={handleStartGameClick}>Start Game</GreetingsButton>
-            <GreetingsButton onClick={handleStartGameClick}>High Scores</GreetingsButton>
+            {!highScores ? (
+              <>
+                <GreetingsTitle>Video Gaem</GreetingsTitle>
+                <GreetingsButton onClick={handleStartGameClick}>Start Game</GreetingsButton>
+                <GreetingsButton onClick={handleViewHighscoresClick}>High Scores</GreetingsButton>
+              </>
+            ) : (
+              <>
+                <GreetingsTitle>Highest Scores:</GreetingsTitle>
+                <GreetingsButton onClick={handleViewHighscoresClick}>Return</GreetingsButton>
+              </>
+            )}
           </GreetingsMenu>
           <GameImage src="src/assets/egor-klyuchnyk-artwork.jpg" isBlurred={gameStarted}/>
         </GreetingsContainer>
@@ -69,11 +85,9 @@ function Game() {
       {gameStarted && (
         <GameContainer ref={gameContainerRef}>
           <Header>
-            You must find these three characters:
             <GameGuessCircle />
             <GameGuessCircle />
             <GameGuessCircle />
-            The faster you do, the higher you score!
             <div>
               {timer}
             </div>
@@ -107,9 +121,7 @@ function Game() {
             alt="" 
           />
 
-          <div>
-            <p>footer with credits</p>
-          </div>
+          <Footer><p>footer with credits</p></Footer>
         </GameContainer>
       )}
     </MainContainer>

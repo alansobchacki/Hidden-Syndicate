@@ -17,13 +17,6 @@ export const MainContainer = styled.div`
   font-family: 'Public-sans';
 `;
 
-export const Header = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  opacity: 0.8;
-`;
-
 export const GreetingsContainer = styled.div`
   height: 100vh;
   overflow: hidden;
@@ -45,8 +38,18 @@ export const GreetingsMenu = styled.div`
   gap: 5px;
   border: 4px solid #665f6c;
   border-radius: 6px;
+  opacity: 0.95;
 
   transform: translate(-50%, -50%);
+`;
+
+export const GreetingsTitle = styled.h1`
+  text-align: center;
+  color: white;
+  font-family: 'Public sans';
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin-bottom: 25px;
 `;
 
 export const GreetingsButton = styled.button`
@@ -71,6 +74,20 @@ export const GreetingsButton = styled.button`
 `;
 
 export const GameContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const Header = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #332f35;
+  border-bottom: 3px solid #665f6c; 
+  color: white;
+  font-family: 'Public sans';
+  opacity: 0.95;
+  height: 50px;
 `;
 
 export const GameImage = styled.img`
@@ -102,10 +119,13 @@ export const GameGuessForm = styled.div`
   text-align: center;
   width: 150px;
   height: 200px;
-  border: solid 2px white;
-  border-radius: 4px;
-  background-color: white;
+  border-radius: 6px;
+  background-color: #332f35;
+  border: 4px solid #665f6c;
+  border-radius: 6px;
   opacity: 0.8;
+  color: white;
+  font-family: 'Public sans';
   
   top: 50%;
   left: 50%;
@@ -123,5 +143,17 @@ export const GameGuessCircle = styled.div`
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  border: 2px solid black;
+  border: 2px solid #665f6c;
 `;
+
+export const Footer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #332f35;
+  border-top: 3px solid #665f6c; 
+  color: white;
+  font-family: 'Public sans';
+  opacity: 0.95;
+  height: 50px;
+`

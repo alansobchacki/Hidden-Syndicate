@@ -1,6 +1,8 @@
 import {
   MainContainer,
   GreetingsContainer,
+  GreetingsMenu,
+  GreetingsButton,
   Header,
   GameContainer,
   GameImage,
@@ -55,7 +57,12 @@ function Game() {
     <MainContainer>
       {!gameStarted && (
         <GreetingsContainer>
-          <button onClick={handleStartGameClick}>Click me to start the game!</button>
+          <GreetingsMenu>
+            
+            <GreetingsButton onClick={handleStartGameClick}>Start Game</GreetingsButton>
+            <GreetingsButton onClick={handleStartGameClick}>High Scores</GreetingsButton>
+          </GreetingsMenu>
+          <GameImage src="src/assets/egor-klyuchnyk-artwork.jpg" isBlurred={gameStarted}/>
         </GreetingsContainer>
       )}
 
@@ -93,7 +100,12 @@ function Game() {
             </>
           )}
 
-          <GameImage src="src/assets/egor-klyuchnyk-artwork.jpg" onClick={handleImageClick} alt="" />
+          <GameImage 
+            src="src/assets/egor-klyuchnyk-artwork.jpg" 
+            isBlurred={gameStarted} 
+            onClick={handleImageClick} 
+            alt="" 
+          />
 
           <div>
             <p>footer with credits</p>

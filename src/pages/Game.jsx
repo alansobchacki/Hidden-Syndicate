@@ -16,16 +16,17 @@ import {
 import { useState, useEffect, useRef } from "react";
 
 function Game() {
-  const apiUrl = import.meta.env.VITE_API_URL;
+  const [highScores, setHighScores] = useState(false);
   const [highScoresList, setHighScoresList] = useState([]);
   const [targetsList, setTargetsList] = useState([]);
   const [gameStarted, setGameStarted] = useState(false);
-  const [highScores, setHighScores] = useState(false);
+  const [correctGuesses, setCorrectGuesses] = useState(0);
   const [imageClicked, setImageClicked] = useState(false);
   const [clickX, setClickX] = useState(0);
   const [clickY, setClickY] = useState(0);
   const [timer, setTimer] = useState(0);
   const gameContainerRef = useRef(null);
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const fetchScores = async () => {
     try {
@@ -37,7 +38,7 @@ function Game() {
       if (response.ok) setHighScoresList(data);
 
     } catch (error) {
-      alert("Error: " + error.message);
+      console.log("Error: " + error.message);
     }
   };
 
@@ -51,9 +52,27 @@ function Game() {
       if (response.ok) setTargetsList(data);
 
     } catch (error) {
-      alert("Error: " + error.message);
+      console.log("Error: " + error.message);
     }
   };
+
+  const fetchGuess = async (name, x, y) => {
+    try {
+      const response = await fetch(`${apiUrl}/game/guess`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, x, y }),
+      });
+
+      const data = await response.json();
+      if (response.ok) return data;
+
+    } catch (error) {
+      console.log("Error: " + error.message);
+    }
+  }
 
   const handleImageClick = (event) => {
     setImageClicked(!imageClicked);
@@ -83,7 +102,7 @@ function Game() {
     const xPercent = (x / width) * 100;
     const yPercent = (y / height) * 100;
 
-    alert(`x coordinates in % = ${xPercent}, y coordinates in % = ${yPercent}`);
+    console.log(`x coordinates in % = ${xPercent}, y coordinates in % = ${yPercent}`);
     //
 
     setClickX(x);
@@ -149,16 +168,16 @@ function Game() {
               <GameGuessForm x={clickX} y={clickY}>
                 Which character have you found?
                 <GameGuessFormSubContainer>
-                  <GameGuessCircle />
-                  Meme 1
+                  {targetsList.length > 0 && <GameGuessCircle src={targetsList[0].image} />}
+                  {targetsList.length > 0 && <>{targetsList[0].name}</>}
                 </GameGuessFormSubContainer>
                 <GameGuessFormSubContainer>
-                  <GameGuessCircle />
-                  Meme 2
+                  {targetsList.length > 0 && <GameGuessCircle src={targetsList[1].image} />}
+                  {targetsList.length > 0 && <>{targetsList[1].name}</>}
                 </GameGuessFormSubContainer>
                 <GameGuessFormSubContainer>
-                  <GameGuessCircle />
-                  Meme 3
+                  {targetsList.length > 0 && <GameGuessCircle src={targetsList[2].image} />}
+                  {targetsList.length > 0 && <>{targetsList[2].name}</>}
                 </GameGuessFormSubContainer>
               </GameGuessForm>
             </>

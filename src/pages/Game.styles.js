@@ -13,7 +13,6 @@ export const MainContainer = styled.div`
   flex-direction: column;
   justify-content: center; 
   align-items: center; 
-  overflow-x: hidden; 
   font-family: 'Public-sans';
 `;
 
@@ -85,9 +84,15 @@ export const Header = styled.div`
   background-color: #332f35;
   border-bottom: 3px solid #665f6c; 
   color: white;
-  font-family: 'Public sans';
+  font-family: 'Public Sans';
   opacity: 0.95;
   height: 50px;
+  width: 100%;
+  left: 0;
+  transition: top 0.5s ease;
+  position: absolute;
+
+  top: ${({ isVisible }) => (isVisible ? "0px" : "-50px")};
 `;
 
 export const GameImage = styled.img`
@@ -156,4 +161,4 @@ export const Footer = styled.div`
   font-family: 'Public sans';
   opacity: 0.95;
   height: 50px;
-`
+`;

@@ -53,8 +53,17 @@ function Game() {
     const rect = event.target.getBoundingClientRect();
 
     let x = event.clientX - rect.left;
-    let y = event.clientY - rect.top;
+    let y = event.clientY - rect.top - 50; // to account for the header
 
+    // Convert the coordinates to percentages -- to be used later on the API
+    const width = rect.width;
+    const height = rect.height;
+  
+    const xPercent = (x / width) * 100;
+    const yPercent = (y / height) * 100;
+
+    alert(`x coordinates in % = ${xPercent}, y coordinates in % = ${yPercent}`);
+    //
 
     setClickX(x);
     setClickY(y);
@@ -62,6 +71,15 @@ function Game() {
 
   return (
     <MainContainer>
+      <Header isVisible={gameStarted}>
+        <GameGuessCircle />
+        <GameGuessCircle />
+        <GameGuessCircle />
+        <div>
+          {timer}
+        </div>
+      </Header>
+
       {!gameStarted && (
         <GreetingsContainer>
           <GreetingsMenu>
@@ -84,15 +102,6 @@ function Game() {
 
       {gameStarted && (
         <GameContainer ref={gameContainerRef}>
-          <Header>
-            <GameGuessCircle />
-            <GameGuessCircle />
-            <GameGuessCircle />
-            <div>
-              {timer}
-            </div>
-          </Header>
-
           {imageClicked && (
             <>
               <GameGuessClick x={clickX} y={clickY} />

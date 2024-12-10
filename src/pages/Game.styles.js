@@ -144,7 +144,7 @@ export const GameGuessFormSubContainer = styled.div`
   padding-left: 10px;
 `;
 
-export const GameGuessCircle = styled.div`
+export const GameGuessCircle = styled.img`
   width: 38px;
   height: 38px;
   border-radius: 50%;

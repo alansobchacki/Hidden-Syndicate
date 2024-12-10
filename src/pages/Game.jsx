@@ -17,9 +17,10 @@ import { useState, useEffect, useRef } from "react";
 
 function Game() {
   const apiUrl = import.meta.env.VITE_API_URL;
+  const [highScoresList, setHighScoresList] = useState([]);
+  const [targetsList, setTargetsList] = useState([]);
   const [gameStarted, setGameStarted] = useState(false);
   const [highScores, setHighScores] = useState(false);
-  const [highScoresList, setHighScoresList] = useState([]);
   const [imageClicked, setImageClicked] = useState(false);
   const [clickX, setClickX] = useState(0);
   const [clickY, setClickY] = useState(0);
@@ -33,24 +34,26 @@ function Game() {
       });
   
       const data = await response.json();
-  
       if (response.ok) setHighScoresList(data);
 
     } catch (error) {
       alert("Error: " + error.message);
     }
   };
-  
-  useEffect(() => {
-    let interval;
-    if (gameStarted) {
-      interval = setInterval(() => {
-        setTimer((prevTime) => prevTime + 1);
-      }, 1000);
-    }
 
-    return () => clearInterval(interval);
-  }, [gameStarted]);
+  const fetchTargets = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/game`, {
+        method: "GET"
+      });
+  
+      const data = await response.json();
+      if (response.ok) setTargetsList(data);
+
+    } catch (error) {
+      alert("Error: " + error.message);
+    }
+  };
 
   const handleImageClick = (event) => {
     setImageClicked(!imageClicked);
@@ -58,6 +61,7 @@ function Game() {
   };
 
   const handleStartGameClick = () => { 
+    fetchTargets();
     setGameStarted(true);
   };
 
@@ -86,15 +90,24 @@ function Game() {
     setClickY(y);
   };
 
+  useEffect(() => {
+    let interval;
+    if (gameStarted) {
+      interval = setInterval(() => {
+        setTimer((prevTime) => prevTime + 1);
+      }, 1000);
+    }
+
+    return () => clearInterval(interval);
+  }, [gameStarted]);
+
   return (
     <MainContainer>
       <Header isVisible={gameStarted}>
-        <GameGuessCircle />
-        <GameGuessCircle />
-        <GameGuessCircle />
-        <div>
-          {timer}
-        </div>
+        {targetsList.length > 0 && <GameGuessCircle src={targetsList[0].image} />}
+        {targetsList.length > 0 && <GameGuessCircle src={targetsList[1].image} />}
+        {targetsList.length > 0 && <GameGuessCircle src={targetsList[2].image} />}
+        <div>{timer}</div>
       </Header>
 
       {!gameStarted && (
@@ -124,7 +137,7 @@ function Game() {
               </>
             )}
           </GreetingsMenu>
-          <GameImage src="src/assets/egor-klyuchnyk-artwork.jpg" isBlurred={gameStarted}/>
+          <GameImage src="/assets/egor-klyuchnyk-artwork.jpg" isBlurred={gameStarted}/>
         </GreetingsContainer>
       )}
 
@@ -137,7 +150,7 @@ function Game() {
                 Which character have you found?
                 <GameGuessFormSubContainer>
                   <GameGuessCircle />
-                  Meme
+                  Meme 1
                 </GameGuessFormSubContainer>
                 <GameGuessFormSubContainer>
                   <GameGuessCircle />
@@ -152,7 +165,7 @@ function Game() {
           )}
 
           <GameImage 
-            src="src/assets/egor-klyuchnyk-artwork.jpg" 
+            src="/assets/egor-klyuchnyk-artwork.jpg" 
             isBlurred={gameStarted} 
             onClick={handleImageClick} 
             alt="" 

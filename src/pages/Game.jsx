@@ -16,15 +16,31 @@ import {
 import { useState, useEffect, useRef } from "react";
 
 function Game() {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const [gameStarted, setGameStarted] = useState(false);
   const [highScores, setHighScores] = useState(false);
+  const [highScoresList, setHighScoresList] = useState([]);
   const [imageClicked, setImageClicked] = useState(false);
   const [clickX, setClickX] = useState(0);
   const [clickY, setClickY] = useState(0);
   const [timer, setTimer] = useState(0);
-
   const gameContainerRef = useRef(null);
 
+  const fetchScores = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/game/scores`, {
+        method: "GET"
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) setHighScoresList(data);
+
+    } catch (error) {
+      alert("Error: " + error.message);
+    }
+  };
+  
   useEffect(() => {
     let interval;
     if (gameStarted) {
@@ -47,6 +63,7 @@ function Game() {
 
   const handleViewHighscoresClick = () => {
     setHighScores(!highScores);
+    if (!highScores) fetchScores();
   };
 
   const getClickCoordinates = (event) => {
@@ -92,6 +109,17 @@ function Game() {
             ) : (
               <>
                 <GreetingsTitle>Highest Scores:</GreetingsTitle>
+                <ul>
+                  {highScoresList.length > 0 ? (
+                    highScoresList.map((score, index) => (
+                      <li key={index}>
+                        {score.name}: {score.score}
+                      </li>
+                    ))
+                  ) : (
+                    <li>No high scores available</li>
+                  )}
+                </ul>
                 <GreetingsButton onClick={handleViewHighscoresClick}>Return</GreetingsButton>
               </>
             )}

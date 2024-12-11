@@ -114,12 +114,21 @@ function Game() {
   const handleFormSubmit = async (name, x, y) => {
     try {
       const answer = await fetchGuess(name, x, y);
+  
+      if (answer.isCorrect) {
+        setCorrectGuesses((prev) => prev + 1);
+        setTargetsList((prevTargets) =>
+          prevTargets.map((target) =>
+            target.name === name ? { ...target, guessed: true } : target
+          )
+        );
+      }
 
-      if (answer.isCorrect) setCorrectGuesses(correctGuesses + 1);
     } catch (error) {
       console.log("Error: " + error.message);
     }
-  }
+  };
+  
 
   const getClickCoordinates = (event) => {
     const rect = event.target.getBoundingClientRect();
@@ -140,14 +149,14 @@ function Game() {
 
   useEffect(() => {
     let interval;
-    if (gameStarted) {
+    if (gameStarted && !gameEnded) {
       interval = setInterval(() => {
-        setScore((prevTime) => prevTime + 1);
+        setScore((prevScore) => prevScore + 1);
       }, 1000);
     }
-
+  
     return () => clearInterval(interval);
-  }, [gameStarted]);
+  }, [gameStarted, gameEnded]);
 
   useEffect(() => {
     if (correctGuesses === 3) { 
@@ -210,26 +219,18 @@ function Game() {
               <GameGuessClick x={clickX} y={clickY} />
               <GameGuessForm x={clickX} y={clickY}>
                 Which character have you found?
-                <GameGuessFormSubContainer
-                  onClick={() => handleFormSubmit(targetsList[0].name, clickXPercent, clickYPercent)}
-                >
-                  {targetsList.length > 0 && <GameGuessCircle src={targetsList[0].image} />}
-                  {targetsList.length > 0 && <>{targetsList[0].name}</>}
-                </GameGuessFormSubContainer>
-
-                <GameGuessFormSubContainer
-                  onClick={() => handleFormSubmit(targetsList[1].name, clickXPercent, clickYPercent)}
-                >
-                  {targetsList.length > 0 && <GameGuessCircle src={targetsList[1].image} />}
-                  {targetsList.length > 0 && <>{targetsList[1].name}</>}
-                </GameGuessFormSubContainer>
-
-                <GameGuessFormSubContainer
-                  onClick={() => handleFormSubmit(targetsList[2].name, clickXPercent, clickYPercent)}
-                >
-                  {targetsList.length > 0 && <GameGuessCircle src={targetsList[2].image} />}
-                  {targetsList.length > 0 && <>{targetsList[2].name}</>}
-                </GameGuessFormSubContainer>
+                {targetsList.map((target, index) => (
+                  <GameGuessFormSubContainer
+                    key={index}
+                    guessed={target.guessed}
+                    onClick={() =>
+                      !target.guessed && handleFormSubmit(target.name, clickXPercent, clickYPercent)
+                    }
+                  >
+                    {targetsList.length > 0 && <GameGuessCircle src={target.image} />}
+                    {targetsList.length > 0 && <>{target.name}</>}
+                  </GameGuessFormSubContainer>
+                ))}
               </GameGuessForm>
             </>
           )}

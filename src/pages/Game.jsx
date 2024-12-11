@@ -102,7 +102,6 @@ function Game() {
   };
 
   const handleStartGameClick = () => { 
-    fetchTargets();
     setGameStarted(true);
   };
 
@@ -129,7 +128,6 @@ function Game() {
     }
   };
   
-
   const getClickCoordinates = (event) => {
     const rect = event.target.getBoundingClientRect();
 
@@ -165,14 +163,16 @@ function Game() {
     }
   }, [correctGuesses]);
 
+  useEffect(() => {
+    if (!gameEnded) fetchTargets();
+  }, [gameEnded]);
+
   return (
     <MainContainer>
       <Header isVisible={gameStarted}>
-        {targetsList.length > 0 && <GameGuessCircle src={targetsList[0].image} />}
-        {targetsList.length > 0 && <GameGuessCircle src={targetsList[1].image} />}
-        {targetsList.length > 0 && <GameGuessCircle src={targetsList[2].image} />}
-        <div>Correct Guesses: {correctGuesses}</div>
-        <div>Your Score: {score} (the lower the better)</div>
+        {targetsList.map((target, index) => (
+          <GameGuessCircle key={index} src={target.image} />
+        ))}
       </Header>
 
       {!gameStarted && !gameEnded &&(
@@ -181,6 +181,12 @@ function Game() {
             {!highScores ? (
               <>
                 <GreetingsTitle>Video Gaem</GreetingsTitle>
+                {targetsList.map((target, index) => (
+                  <>
+                    <GameGuessCircle key={index} src={target.image} />
+                    <p>{target.name}</p>
+                  </>
+                ))}
                 <GreetingsButton onClick={handleStartGameClick}>Start Game</GreetingsButton>
                 <GreetingsButton onClick={handleViewHighscoresClick}>High Scores</GreetingsButton>
               </>

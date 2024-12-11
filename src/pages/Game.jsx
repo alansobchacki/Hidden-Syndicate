@@ -6,7 +6,7 @@ import {
   GreetingsButton,
   Header,
   GameContainer,
-  GameImage,
+  GameBackgroundImage,
   GameGuessClick,
   GameGuessForm,
   GameGuessFormSubContainer,
@@ -24,6 +24,8 @@ function Game() {
   const [imageClicked, setImageClicked] = useState(false);
   const [clickX, setClickX] = useState(0);
   const [clickY, setClickY] = useState(0);
+  const [clickXPercent, setClickXPercent] = useState(0);
+  const [clickYPercent, setClickYPercent] = useState(0);
   const [timer, setTimer] = useState(0);
   const gameContainerRef = useRef(null);
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -68,7 +70,6 @@ function Game() {
 
       const data = await response.json();
       if (response.ok) return data;
-
     } catch (error) {
       console.log("Error: " + error.message);
     }
@@ -89,24 +90,32 @@ function Game() {
     if (!highScores) fetchScores();
   };
 
+  const handleFormSubmit = async (name, x, y) => {
+    try {
+      const answer = await fetchGuess(name, x, y);
+
+      if (answer.isCorrect) setCorrectGuesses(correctGuesses + 1);
+    } catch (error) {
+      console.log("Error: " + error.message);
+    }
+  }
+
   const getClickCoordinates = (event) => {
     const rect = event.target.getBoundingClientRect();
 
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top - 50; // to account for the header
 
-    // Convert the coordinates to percentages -- to be used later on the API
     const width = rect.width;
     const height = rect.height;
-  
-    const xPercent = (x / width) * 100;
-    const yPercent = (y / height) * 100;
 
-    console.log(`x coordinates in % = ${xPercent}, y coordinates in % = ${yPercent}`);
-    //
-
+    // for debugging - remove later
+    // console.log(`x coordinates in % = ${xPercent}, y coordinates in % = ${yPercent}`);
     setClickX(x);
     setClickY(y);
+    // Convert the coordinates to percentages -- to be used on the API
+    setClickXPercent((x / width) * 100);
+    setClickYPercent((y / height) * 100);
   };
 
   useEffect(() => {
@@ -126,7 +135,8 @@ function Game() {
         {targetsList.length > 0 && <GameGuessCircle src={targetsList[0].image} />}
         {targetsList.length > 0 && <GameGuessCircle src={targetsList[1].image} />}
         {targetsList.length > 0 && <GameGuessCircle src={targetsList[2].image} />}
-        <div>{timer}</div>
+        <div>Correct Guesses: {correctGuesses}</div>
+        <div>Your Score: {timer} (the lower the better)</div>
       </Header>
 
       {!gameStarted && (
@@ -156,7 +166,7 @@ function Game() {
               </>
             )}
           </GreetingsMenu>
-          <GameImage src="/assets/egor-klyuchnyk-artwork.jpg" isBlurred={gameStarted}/>
+          <GameBackgroundImage src="/assets/egor-klyuchnyk-artwork.jpg" isBlurred={gameStarted}/>
         </GreetingsContainer>
       )}
 
@@ -167,15 +177,23 @@ function Game() {
               <GameGuessClick x={clickX} y={clickY} />
               <GameGuessForm x={clickX} y={clickY}>
                 Which character have you found?
-                <GameGuessFormSubContainer>
+                <GameGuessFormSubContainer
+                  onClick={() => handleFormSubmit(targetsList[0].name, clickXPercent, clickYPercent)}
+                >
                   {targetsList.length > 0 && <GameGuessCircle src={targetsList[0].image} />}
                   {targetsList.length > 0 && <>{targetsList[0].name}</>}
                 </GameGuessFormSubContainer>
-                <GameGuessFormSubContainer>
+
+                <GameGuessFormSubContainer
+                  onClick={() => handleFormSubmit(targetsList[1].name, clickXPercent, clickYPercent)}
+                >
                   {targetsList.length > 0 && <GameGuessCircle src={targetsList[1].image} />}
                   {targetsList.length > 0 && <>{targetsList[1].name}</>}
                 </GameGuessFormSubContainer>
-                <GameGuessFormSubContainer>
+
+                <GameGuessFormSubContainer
+                  onClick={() => handleFormSubmit(targetsList[2].name, clickXPercent, clickYPercent)}
+                >
                   {targetsList.length > 0 && <GameGuessCircle src={targetsList[2].image} />}
                   {targetsList.length > 0 && <>{targetsList[2].name}</>}
                 </GameGuessFormSubContainer>
@@ -183,7 +201,7 @@ function Game() {
             </>
           )}
 
-          <GameImage 
+          <GameBackgroundImage 
             src="/assets/egor-klyuchnyk-artwork.jpg" 
             isBlurred={gameStarted} 
             onClick={handleImageClick} 

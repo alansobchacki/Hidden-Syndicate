@@ -95,7 +95,7 @@ export const Header = styled.div`
   top: ${({ isVisible }) => (isVisible ? "0px" : "-50px")};
 `;
 
-export const GameImage = styled.img`
+export const GameBackgroundImage = styled.img`
   width: 100%;
   filter: ${({ isBlurred }) => (isBlurred ? "none" : "blur(5px)")};
 `;
@@ -142,6 +142,7 @@ export const GameGuessFormSubContainer = styled.div`
   align-items: center;
   gap: 10px;
   padding-left: 10px;
+  cursor: pointer;
 `;
 
 export const GameGuessCircle = styled.img`

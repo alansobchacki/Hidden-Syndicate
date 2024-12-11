@@ -20,13 +20,15 @@ function Game() {
   const [highScoresList, setHighScoresList] = useState([]);
   const [targetsList, setTargetsList] = useState([]);
   const [gameStarted, setGameStarted] = useState(false);
+  const [gameEnded, setGameEnded] = useState(false);
   const [correctGuesses, setCorrectGuesses] = useState(0);
   const [imageClicked, setImageClicked] = useState(false);
   const [clickX, setClickX] = useState(0);
   const [clickY, setClickY] = useState(0);
   const [clickXPercent, setClickXPercent] = useState(0);
   const [clickYPercent, setClickYPercent] = useState(0);
-  const [timer, setTimer] = useState(0);
+  const [playerName, setPlayerName] = useState('');
+  const [score, setScore] = useState(0);
   const gameContainerRef = useRef(null);
   const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -70,14 +72,33 @@ function Game() {
 
       const data = await response.json();
       if (response.ok) return data;
+
     } catch (error) {
       console.log("Error: " + error.message);
     }
   }
 
-  const handleImageClick = (event) => {
-    setImageClicked(!imageClicked);
-    getClickCoordinates(event);
+  const savePlayerScore = async (name, score) => {
+    try {
+      const response = await fetch(`${apiUrl}/game/save`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, score }),
+      });
+
+      const data = await response.json();
+      if (response.ok) return data;
+
+    } catch (error) {
+      console.log("Error: " + error.message);
+    }
+  }
+
+  const handleViewHighscoresClick = () => {
+    setHighScores(!highScores);
+    if (!highScores) fetchScores();
   };
 
   const handleStartGameClick = () => { 
@@ -85,9 +106,9 @@ function Game() {
     setGameStarted(true);
   };
 
-  const handleViewHighscoresClick = () => {
-    setHighScores(!highScores);
-    if (!highScores) fetchScores();
+  const handleImageClick = (event) => {
+    setImageClicked(!imageClicked);
+    getClickCoordinates(event);
   };
 
   const handleFormSubmit = async (name, x, y) => {
@@ -109,10 +130,9 @@ function Game() {
     const width = rect.width;
     const height = rect.height;
 
-    // for debugging - remove later
-    // console.log(`x coordinates in % = ${xPercent}, y coordinates in % = ${yPercent}`);
     setClickX(x);
     setClickY(y);
+
     // Convert the coordinates to percentages -- to be used on the API
     setClickXPercent((x / width) * 100);
     setClickYPercent((y / height) * 100);
@@ -122,12 +142,19 @@ function Game() {
     let interval;
     if (gameStarted) {
       interval = setInterval(() => {
-        setTimer((prevTime) => prevTime + 1);
+        setScore((prevTime) => prevTime + 1);
       }, 1000);
     }
 
     return () => clearInterval(interval);
   }, [gameStarted]);
+
+  useEffect(() => {
+    if (correctGuesses === 3) { 
+      setGameEnded(true);
+      setGameStarted(false);
+    }
+  }, [correctGuesses]);
 
   return (
     <MainContainer>
@@ -136,10 +163,10 @@ function Game() {
         {targetsList.length > 0 && <GameGuessCircle src={targetsList[1].image} />}
         {targetsList.length > 0 && <GameGuessCircle src={targetsList[2].image} />}
         <div>Correct Guesses: {correctGuesses}</div>
-        <div>Your Score: {timer} (the lower the better)</div>
+        <div>Your Score: {score} (the lower the better)</div>
       </Header>
 
-      {!gameStarted && (
+      {!gameStarted && !gameEnded &&(
         <GreetingsContainer>
           <GreetingsMenu>
             {!highScores ? (
@@ -170,7 +197,13 @@ function Game() {
         </GreetingsContainer>
       )}
 
-      {gameStarted && (
+      {gameEnded && (
+        <>
+          game ended go home
+        </>
+      )}
+
+      {gameStarted && !gameEnded &&(
         <GameContainer ref={gameContainerRef}>
           {imageClicked && (
             <>

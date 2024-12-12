@@ -29,6 +29,7 @@ function Game() {
   const [clickYPercent, setClickYPercent] = useState(0);
   const [playerName, setPlayerName] = useState('');
   const [score, setScore] = useState(0);
+  const [nameError, setNameError] = useState(false);
   const gameContainerRef = useRef(null);
   const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -110,7 +111,7 @@ function Game() {
     getClickCoordinates(event);
   };
 
-  const handleFormSubmit = async (name, x, y) => {
+  const handleGuessSubmit = async (name, x, y) => {
     try {
       const answer = await fetchGuess(name, x, y);
   
@@ -127,6 +128,27 @@ function Game() {
       console.log("Error: " + error.message);
     }
   };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    if (playerName.length < 1 || playerName.length > 6) {
+      setNameError(true);
+      return;
+    }
+
+    try {
+      savePlayerScore(playerName, score);
+      alert("Your score has been submitted!");
+      resetGame();
+    } catch (error) {
+      console.log("Error: " + error.message);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setPlayerName(e.target.value);
+  };
   
   const getClickCoordinates = (event) => {
     const rect = event.target.getBoundingClientRect();
@@ -140,10 +162,22 @@ function Game() {
     setClickX(x);
     setClickY(y);
 
-    // Convert the coordinates to percentages -- to be used on the API
+    // Convert the coordinates into percentages to be used on the API
     setClickXPercent((x / width) * 100);
     setClickYPercent((y / height) * 100);
+
+    // uncomment this if you need help adding new targets to the game
+    // alert(`Current X Coords: ${clickXPercent} - Current Y Coords: ${clickYPercent}`);
   };
+
+  const resetGame = () => {
+    setGameStarted(false);
+    setGameEnded(false);
+    setCorrectGuesses(0);
+    setPlayerName('');
+    setScore(0);
+    setNameError(false);
+  }
 
   useEffect(() => {
     let interval;
@@ -196,9 +230,7 @@ function Game() {
                 <ul>
                   {highScoresList.length > 0 ? (
                     highScoresList.map((score, index) => (
-                      <li key={index}>
-                        {score.name}: {score.score}
-                      </li>
+                      <li key={index}>{score.name}: {score.score}</li>
                     ))
                   ) : (
                     <li>No high scores available</li>
@@ -214,7 +246,19 @@ function Game() {
 
       {gameEnded && (
         <>
-          game ended go home
+          <p>Congratulations! You beat the game in {score} seconds.</p>
+          <form onSubmit={handleFormSubmit}>
+            <input
+              type="text"
+              value={playerName}
+              onChange={handleInputChange}
+              placeholder="Enter your name (1 to 6 characters long)"
+            />
+            {nameError && (<p>Your name must be between 1 to 6 characters!</p>)}
+            <button type="submit" disabled={!playerName.trim()}>
+              Submit
+            </button>
+          </form>
         </>
       )}
 
@@ -230,11 +274,11 @@ function Game() {
                     key={index}
                     guessed={target.guessed}
                     onClick={() =>
-                      !target.guessed && handleFormSubmit(target.name, clickXPercent, clickYPercent)
+                      !target.guessed && handleGuessSubmit(target.name, clickXPercent, clickYPercent)
                     }
                   >
-                    {targetsList.length > 0 && <GameGuessCircle src={target.image} />}
-                    {targetsList.length > 0 && <>{target.name}</>}
+                    <GameGuessCircle src={target.image} />
+                    {target.name}
                   </GameGuessFormSubContainer>
                 ))}
               </GameGuessForm>

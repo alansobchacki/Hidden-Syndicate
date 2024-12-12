@@ -1,7 +1,7 @@
 import {
   MainContainer,
-  GreetingsContainer,
-  GreetingsMenu,
+  DisplayPanelContainer,
+  DisplayPanel,
   Title,
   SubTitle,
   Description,
@@ -18,7 +18,9 @@ import {
   GameGuessFormSubContainer,
   GameGuessCircle,
   Footer,
-  FooterTitle
+  FooterTitle,
+  Form,
+  Input
 } from "./Game.styles.js";
 import { useState, useEffect, useRef } from "react";
 
@@ -206,6 +208,7 @@ function Game() {
 
   useEffect(() => {
     if (!gameEnded) fetchTargets();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameEnded]);
 
   return (
@@ -225,12 +228,14 @@ function Game() {
       </Header>
 
       {!gameStarted && !gameEnded &&(
-        <GreetingsContainer>
-          <GreetingsMenu>
+        <DisplayPanelContainer>
+          <DisplayPanel>
             {!highScores ? (
               <>
                 <Title>Hidden Syndicate</Title>
-                <Description>Find the targets below. The faster you do, the higher you score.</Description>
+                <Description>
+                  Find the targets below. The faster you do it, the higher you rank.
+                </Description>
                 <TargetsContainer>
                   {targetsList.map((target, index) => (
                     <TargetsSubContainer key={index}>
@@ -255,33 +260,35 @@ function Game() {
                     <Description>No high scores available</Description>
                   )}
                 </ScoresContainer>
-                <Description>
-                  * How many seconds it took for these agents to finish their mission
-                </Description>
                 <Button onClick={handleViewHighscoresClick}>Return</Button>
               </>
             )}
-          </GreetingsMenu>
+          </DisplayPanel>
           <GameBackgroundImage src="/assets/egor-klyuchnyk-artwork.jpg" isBlurred={gameStarted}/>
-        </GreetingsContainer>
+        </DisplayPanelContainer>
       )}
 
       {gameEnded && (
-        <>
-          <p>Congratulations! You beat the game in {score} seconds.</p>
-          <form onSubmit={handleFormSubmit}>
-            <input
-              type="text"
-              value={playerName}
-              onChange={handleInputChange}
-              placeholder="Enter your name (1 to 6 characters long)"
-            />
-            {nameError && (<p>Your name must be between 1 to 6 characters!</p>)}
-            <button type="submit" disabled={!playerName.trim()}>
-              Submit
-            </button>
-          </form>
-        </>
+        <DisplayPanelContainer>
+          <DisplayPanel>
+            <Title>Hidden Syndicate</Title>
+            <SubTitle>Congratulations! You beat the game in {score} seconds.</SubTitle>
+            <Description>Good job, agent. Write your name to earn your credits:</Description>
+            {nameError && (<Description>Your name must be between 1 to 6 characters!</Description>)}
+            <Form onSubmit={handleFormSubmit}>
+              <Input
+                type="text"
+                value={playerName}
+                onChange={handleInputChange}
+                placeholder="1-6 chars"
+              />
+              <Button type="submit" disabled={!playerName.trim()}>
+                Submit
+              </Button>
+            </Form>
+          </DisplayPanel>
+          <GameBackgroundImage src="/assets/egor-klyuchnyk-artwork.jpg" isBlurred={true}/>
+        </DisplayPanelContainer>
       )}
 
       {gameStarted && !gameEnded &&(

@@ -17,12 +17,12 @@ export const MainContainer = styled.div`
   color: white;
 `;
 
-export const GreetingsContainer = styled.div`
+export const DisplayPanelContainer = styled.div`
   height: 100vh;
   overflow: hidden;
 `;
 
-export const GreetingsMenu = styled.div`
+export const DisplayPanel = styled.div`
   position: absolute;
   z-index: 10;
   width: 60vh;
@@ -35,7 +35,7 @@ export const GreetingsMenu = styled.div`
   justify-content: center;
   align-items: center;
   gap: 10px;
-  padding: 10px;
+  padding: 30px;
   border: 4px solid #665f6c;
   border-radius: 6px;
   opacity: 0.95;
@@ -193,7 +193,7 @@ export const GameGuessFormSubContainer = styled.div`
   cursor: ${(props) => (props.guessed ? "not-allowed" : "pointer")};
 
   &:hover {
-    background-color: ${(props) => (props.guessed ? "#f8f9fa" : "#f0f0f0")};
+    background-color: ${(props) => (props.guessed ? "#f8f9fa" : "#494949")};
   }
 `;
 
@@ -220,4 +220,21 @@ export const FooterTitle = styled.p`
   color: #c5bbbb;
   font-family: Title-Font;
   font-size: 1.5rem;
+`;
+
+export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const Input = styled.input`
+  caret-color: transparent;
+  padding: 15px 15px 10px 15px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  background-color: lightgray;
+  border: none;
+  border-radius: 5px;
+  font-family: Description-Font;
 `;

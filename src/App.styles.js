@@ -1,6 +1,16 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
+  @font-face {
+    font-family: 'Title-Font';
+    src: url('/assets/SAIBA-45.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Description-Font';
+    src: url('/assets/broken-console.ttf') format('truetype');
+  }
+
   *, *::before, *::after {
     margin: 0;
     padding: 0;
@@ -14,7 +24,7 @@ const GlobalStyles = createGlobalStyle`
   body {
     margin: 0;
     padding: 0;
-    font-family: 'Public Sans', sans-serif;
+    font-family: 'Public Sans', 'Title-Font', 'Description-Font', sans-serif;
   }
 
   a {

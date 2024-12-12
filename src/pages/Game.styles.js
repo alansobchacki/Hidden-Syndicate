@@ -14,6 +14,7 @@ export const MainContainer = styled.div`
   justify-content: center; 
   align-items: center; 
   font-family: 'Public-sans';
+  color: white;
 `;
 
 export const GreetingsContainer = styled.div`
@@ -24,17 +25,17 @@ export const GreetingsContainer = styled.div`
 export const GreetingsMenu = styled.div`
   position: absolute;
   z-index: 10;
-  width: 50vh;
-  height: 50vh;
+  width: 60vh;
+  height: 75vh;
   top: 50%;
   left: 50%;
-  border-radius: 6px;
   background-color: #332f35;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
+  padding: 10px;
   border: 4px solid #665f6c;
   border-radius: 6px;
   opacity: 0.95;
@@ -42,23 +43,34 @@ export const GreetingsMenu = styled.div`
   transform: translate(-50%, -50%);
 `;
 
-export const GreetingsTitle = styled.h1`
+export const Title = styled.h1`
   text-align: center;
-  color: white;
-  font-family: 'Public sans';
-  font-weight: 700;
-  font-size: 1.8rem;
-  margin-bottom: 25px;
+  color: #c5bbbb;
+  font-family: Title-Font;
+  font-size: 3.5rem;
 `;
 
-export const GreetingsButton = styled.button`
+export const Description = styled.p`
+  color: #e1cfcf;
+  font-family: Description-Font;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 5px 5px 0 5px;
+`;
+
+export const Button = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 5px;
   width: 200px;
   height: 50px;
-  font-family: 'Public Sans';
+  font-family: 'Description-Font';
   font-weight: 700;
   font-size: 1.2rem;
   background-color: #332f35;
-  color: #665f6c;
+  color: #b3b3b3;
   border-radius: 6px;
   border: 3px solid #665f6c;
   cursor: pointer;
@@ -68,8 +80,20 @@ export const GreetingsButton = styled.button`
     background-color: #665f6c;
     color: #332f35;
     border-color: #332f35;
-    transform: scale(1.05);
   }
+`;
+
+export const TargetsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 5px;
+`;
+
+export const TargetsSubContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px;
 `;
 
 export const GameContainer = styled.div`
@@ -155,7 +179,7 @@ export const GameGuessCircle = styled.img`
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  border: 2px solid #665f6c;
+  border: 4px solid #665f6c;
 `;
 
 export const Footer = styled.div`

@@ -2,8 +2,11 @@ import {
   MainContainer,
   GreetingsContainer,
   GreetingsMenu,
-  GreetingsTitle,
-  GreetingsButton,
+  Title,
+  Description,
+  Button,
+  TargetsContainer,
+  TargetsSubContainer,
   Header,
   GameContainer,
   GameBackgroundImage,
@@ -214,19 +217,22 @@ function Game() {
           <GreetingsMenu>
             {!highScores ? (
               <>
-                <GreetingsTitle>Video Gaem</GreetingsTitle>
-                {targetsList.map((target, index) => (
-                  <>
-                    <GameGuessCircle key={index} src={target.image} />
-                    <p>{target.name}</p>
-                  </>
-                ))}
-                <GreetingsButton onClick={handleStartGameClick}>Start Game</GreetingsButton>
-                <GreetingsButton onClick={handleViewHighscoresClick}>High Scores</GreetingsButton>
+                <Title>Hidden Syndicate</Title>
+                <Description>Find the targets below. The faster you do, the higher you score.</Description>
+                <TargetsContainer>
+                  {targetsList.map((target, index) => (
+                    <TargetsSubContainer key={index}>
+                      <GameGuessCircle key={index} src={target.image} />
+                      <Description>{target.name}</Description>
+                    </TargetsSubContainer>
+                  ))}
+                </TargetsContainer>
+                <Button onClick={handleStartGameClick}>Start Game</Button>
+                <Button onClick={handleViewHighscoresClick}>High Scores</Button>
               </>
             ) : (
               <>
-                <GreetingsTitle>Highest Scores:</GreetingsTitle>
+                <Title>Highest Scores:</Title>
                 <ul>
                   {highScoresList.length > 0 ? (
                     highScoresList.map((score, index) => (
@@ -236,7 +242,7 @@ function Game() {
                     <li>No high scores available</li>
                   )}
                 </ul>
-                <GreetingsButton onClick={handleViewHighscoresClick}>Return</GreetingsButton>
+                <Button onClick={handleViewHighscoresClick}>Return</Button>
               </>
             )}
           </GreetingsMenu>

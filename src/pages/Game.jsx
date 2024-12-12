@@ -250,7 +250,7 @@ function Game() {
             ) : (
               <>
                 <Title>Hidden Syndicate</Title>
-                <SubTitle>Top 5 Agents *</SubTitle>
+                <SubTitle>Top 5 Fastest Agents</SubTitle>
                 <ScoresContainer>
                   {highScoresList.length > 0 ? (
                     highScoresList.map((score, index) => (

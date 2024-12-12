@@ -188,8 +188,9 @@ export const GameGuessFormSubContainer = styled.div`
   align-items: center;
   gap: 10px;
   padding-left: 10px;
+  background-color: ${(props) => (props.guessed ? "#207549" : "none")};
   pointer-events: ${(props) => (props.guessed ? "none" : "auto")};
-  opacity: ${(props) => (props.guessed ? 0.5 : 1)};
+  opacity: ${(props) => (props.guessed ? 0.6 : 1)};
   cursor: ${(props) => (props.guessed ? "not-allowed" : "pointer")};
 
   &:hover {

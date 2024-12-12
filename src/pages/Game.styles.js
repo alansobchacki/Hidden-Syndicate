@@ -13,7 +13,6 @@ export const MainContainer = styled.div`
   flex-direction: column;
   justify-content: center; 
   align-items: center; 
-  font-family: 'Public-sans';
   color: white;
 `;
 
@@ -102,6 +101,11 @@ export const TargetsSubContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 15px;
+  border-radius: 6px;
+  transition: background-color 0.5s ease;
+
+  background-color: ${(props) => (props.guessed ? "#207549" : "none")};
+  opacity: ${(props) => (props.guessed ? "0.6" : "1")};
 `;
 
 export const ScoresContainer = styled.div`
@@ -125,7 +129,6 @@ export const Header = styled.div`
   background-color: #332f35;
   border-bottom: 3px solid #665f6c; 
   color: white;
-  font-family: 'Public Sans';
   opacity: 0.95;
   height: 50px;
   width: 100%;
@@ -176,7 +179,6 @@ export const GameGuessForm = styled.div`
   border-radius: 6px;
   opacity: 0.8;
   color: white;
-  font-family: 'Public sans';
   
   top: 50%;
   left: 50%;
@@ -188,6 +190,8 @@ export const GameGuessFormSubContainer = styled.div`
   align-items: center;
   gap: 10px;
   padding-left: 10px;
+  transition: background-color 0.8s ease;
+
   background-color: ${(props) => (props.guessed ? "#207549" : "none")};
   pointer-events: ${(props) => (props.guessed ? "none" : "auto")};
   opacity: ${(props) => (props.guessed ? 0.6 : 1)};
@@ -212,7 +216,6 @@ export const Footer = styled.div`
   background-color: #332f35;
   border-top: 3px solid #665f6c; 
   color: white;
-  font-family: 'Public sans';
   opacity: 0.95;
   height: 50px;
 `;

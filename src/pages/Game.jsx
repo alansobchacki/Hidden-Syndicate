@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from "react";
 import {
   MainContainer,
   DisplayPanelContainer,
@@ -22,7 +23,6 @@ import {
   Form,
   Input
 } from "./Game.styles.js";
-import { useState, useEffect, useRef } from "react";
 
 function Game() {
   const [highScores, setHighScores] = useState(false);
@@ -214,12 +214,10 @@ function Game() {
   return (
     <MainContainer>
       <Header isVisible={gameStarted}>
-      <Description>
-        Click anywhere on the image to find your targets.
-      </Description>
+        <Description>Click anywhere on the image to find your targets.</Description>
         <TargetsHeaderContainer>
           {targetsList.map((target, index) => (
-            <TargetsSubContainer key={index}>
+            <TargetsSubContainer key={index} guessed={target.guessed}>
               <GameGuessCircle src={target.image} />
               <Description>{target.name}</Description>
             </TargetsSubContainer>

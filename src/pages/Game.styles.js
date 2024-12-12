@@ -50,6 +50,14 @@ export const Title = styled.h1`
   font-size: 3.5rem;
 `;
 
+export const SubTitle = styled.h2`
+  color: #c5bbbb;
+  font-family: Description-Font;
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 20px;
+`;
+
 export const Description = styled.p`
   color: #e1cfcf;
   font-family: Description-Font;
@@ -96,6 +104,15 @@ export const TargetsSubContainer = styled.div`
   gap: 15px;
 `;
 
+export const ScoresContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
+  gap: 5px;
+  width: 50%;
+`;
+
 export const GameContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -117,6 +134,11 @@ export const Header = styled.div`
   position: absolute;
 
   top: ${({ isVisible }) => (isVisible ? "0px" : "-50px")};
+`;
+
+export const TargetsHeaderContainer = styled.div`
+  display: flex;
+  gap: 15px;
 `;
 
 export const GameBackgroundImage = styled.img`
@@ -146,7 +168,7 @@ export const GameGuessForm = styled.div`
   position: fixed;
   gap: 10px;
   text-align: center;
-  width: 150px;
+  width: 200px;
   height: 200px;
   border-radius: 6px;
   background-color: #332f35;
@@ -192,4 +214,10 @@ export const Footer = styled.div`
   font-family: 'Public sans';
   opacity: 0.95;
   height: 50px;
+`;
+
+export const FooterTitle = styled.p`
+  color: #c5bbbb;
+  font-family: Title-Font;
+  font-size: 1.5rem;
 `;

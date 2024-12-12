@@ -3,18 +3,22 @@ import {
   GreetingsContainer,
   GreetingsMenu,
   Title,
+  SubTitle,
   Description,
   Button,
   TargetsContainer,
   TargetsSubContainer,
+  ScoresContainer,
   Header,
+  TargetsHeaderContainer,
   GameContainer,
   GameBackgroundImage,
   GameGuessClick,
   GameGuessForm,
   GameGuessFormSubContainer,
   GameGuessCircle,
-  Footer
+  Footer,
+  FooterTitle
 } from "./Game.styles.js";
 import { useState, useEffect, useRef } from "react";
 
@@ -207,9 +211,17 @@ function Game() {
   return (
     <MainContainer>
       <Header isVisible={gameStarted}>
-        {targetsList.map((target, index) => (
-          <GameGuessCircle key={index} src={target.image} />
-        ))}
+      <Description>
+        Click anywhere on the image to find your targets.
+      </Description>
+        <TargetsHeaderContainer>
+          {targetsList.map((target, index) => (
+            <TargetsSubContainer key={index}>
+              <GameGuessCircle src={target.image} />
+              <Description>{target.name}</Description>
+            </TargetsSubContainer>
+          ))}
+        </TargetsHeaderContainer>
       </Header>
 
       {!gameStarted && !gameEnded &&(
@@ -232,16 +244,20 @@ function Game() {
               </>
             ) : (
               <>
-                <Title>Highest Scores:</Title>
-                <ul>
+                <Title>Hidden Syndicate</Title>
+                <SubTitle>Top 5 Agents *</SubTitle>
+                <ScoresContainer>
                   {highScoresList.length > 0 ? (
                     highScoresList.map((score, index) => (
-                      <li key={index}>{score.name}: {score.score}</li>
+                      <Description key={index}>{score.name} - {score.score}</Description>
                     ))
                   ) : (
-                    <li>No high scores available</li>
+                    <Description>No high scores available</Description>
                   )}
-                </ul>
+                </ScoresContainer>
+                <Description>
+                  * How many seconds it took for these agents to finish their mission
+                </Description>
                 <Button onClick={handleViewHighscoresClick}>Return</Button>
               </>
             )}
@@ -274,7 +290,7 @@ function Game() {
             <>
               <GameGuessClick x={clickX} y={clickY} />
               <GameGuessForm x={clickX} y={clickY}>
-                Which character have you found?
+                <Description>Which target have you found?</Description>
                 {targetsList.map((target, index) => (
                   <GameGuessFormSubContainer
                     key={index}
@@ -283,8 +299,10 @@ function Game() {
                       !target.guessed && handleGuessSubmit(target.name, clickXPercent, clickYPercent)
                     }
                   >
-                    <GameGuessCircle src={target.image} />
-                    {target.name}
+                    <TargetsSubContainer key={index}>
+                      <GameGuessCircle src={target.image} />
+                      <Description>{target.name}</Description>
+                    </TargetsSubContainer>
                   </GameGuessFormSubContainer>
                 ))}
               </GameGuessForm>
@@ -298,7 +316,10 @@ function Game() {
             alt="" 
           />
 
-          <Footer><p>footer with credits</p></Footer>
+          <Footer>
+            <FooterTitle>Hidden Syndicate</FooterTitle>
+            <Description>Image created by Egor Klyuchnyk</Description>
+          </Footer>
         </GameContainer>
       )}
     </MainContainer>

@@ -21,10 +21,12 @@ import {
   Footer,
   FooterTitle,
   Form,
-  Input
+  Input,
+  LoadingCircle
 } from "./Game.styles.js";
 
 function Game() {
+  const [isLoading, setIsLoading] = useState(false);
   const [highScores, setHighScores] = useState(false);
   const [highScoresList, setHighScoresList] = useState([]);
   const [targetsList, setTargetsList] = useState([]);
@@ -59,12 +61,17 @@ function Game() {
 
   const fetchTargets = async () => {
     try {
+      setIsLoading(true);
       const response = await fetch(`${apiUrl}/game`, {
         method: "GET"
       });
   
       const data = await response.json();
-      if (response.ok) setTargetsList(data);
+
+      if (response.ok) { 
+        setIsLoading(false);
+        setTargetsList(data);
+      }
 
     } catch (error) {
       console.log("Error: " + error.message);
@@ -123,6 +130,7 @@ function Game() {
 
   const handleGuessSubmit = async (name, x, y) => {
     try {
+      setIsLoading(true);
       setGuessMessage("Loading...");
       const answer = await fetchGuess(name, x, y);
   
@@ -141,6 +149,8 @@ function Game() {
     } catch (error) {
       displayMessage("Bad servers right now...", 7000);
       console.log("Error: " + error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -249,14 +259,23 @@ function Game() {
                   Find the targets below. The faster you do it, the higher you rank.
                 </Description>
                 <TargetsContainer>
-                  {targetsList.map((target, index) => (
-                    <TargetsSubContainer key={index}>
-                      <GameGuessCircle key={index} src={target.image} />
-                      <Description>{target.name}</Description>
+                  {isLoading ? (
+                    <TargetsSubContainer>
+                      <LoadingCircle />
+                      <Description>Loading...</Description>
                     </TargetsSubContainer>
-                  ))}
+                  ) : (
+                    <>
+                      {targetsList.map((target, index) => (
+                        <TargetsSubContainer key={index}>
+                          <GameGuessCircle key={index} src={target.image} />
+                          <Description>{target.name}</Description>
+                        </TargetsSubContainer>
+                      ))}
+                    </>
+                  )}
                 </TargetsContainer>
-                <Button onClick={handleStartGameClick}>Start Game</Button>
+                <Button disabled={isLoading} onClick={handleStartGameClick}>Start Game</Button>
                 <Button onClick={handleViewHighscoresClick}>High Scores</Button>
               </>
             ) : (

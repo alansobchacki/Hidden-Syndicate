@@ -1,5 +1,14 @@
 import styled, { keyframes } from "styled-components";
 
+const spin = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
 const pulseAnimation = keyframes`
   0%, 100% {
     transform: translateX(-50%) translateY(+50%) scale(1);
@@ -66,6 +75,15 @@ export const Description = styled.p`
   padding: 5px 5px 0 5px;
 `;
 
+export const LoadingCircle = styled.div`
+  width: 38px;
+  height: 38px;
+  border: 4px solid #f3f3f3; /* Light grey background */
+  border-top: 4px solid #3498db; /* Blue color for the spinner */
+  border-radius: 50%;
+  animation: ${spin} 1s linear infinite;
+`;
+
 export const Button = styled.button`
   display: flex;
   align-items: center;
@@ -87,6 +105,14 @@ export const Button = styled.button`
     background-color: #665f6c;
     color: #332f35;
     border-color: #332f35;
+  }
+
+  &:disabled {
+    background-color: #b3b3b3; /* Lighter background when disabled */
+    color: #665f6c; /* Slightly darker text */
+    border-color: #b3b3b3; /* Lighter border color */
+    cursor: not-allowed; /* Change cursor to indicate it’s disabled */
+    opacity: 0.6; /* Slightly transparent to give a disabled effect */
   }
 `;
 

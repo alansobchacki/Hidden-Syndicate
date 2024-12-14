@@ -200,7 +200,7 @@ function Game() {
     setClickYPercent((y / height) * 100);
 
     // uncomment this if you need help adding new targets to the game
-    alert(`Current X Coords: ${(x / width) * 100} - Current Y Coords: ${(y / height) * 100}`);
+    // alert(`Current X Coords: ${(x / width) * 100} - Current Y Coords: ${(y / height) * 100}`);
   };
 
   const resetGame = () => {

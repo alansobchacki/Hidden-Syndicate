@@ -277,18 +277,34 @@ function Game() {
                 </TargetsContainer>
                 <Button disabled={isLoading} onClick={handleStartGameClick}>Start Game</Button>
                 <Button onClick={handleViewHighscoresClick}>High Scores</Button>
+                {isLoading && (
+                  <Description>
+                    Try refreshing if it takes too long, servers are slow right now.
+                  </Description>
+                )}
               </>
             ) : (
               <>
                 <Title>Hidden Syndicate</Title>
                 <SubTitle>Top 5 Fastest Agents</SubTitle>
                 <ScoresContainer>
-                  {highScoresList.length > 0 ? (
-                    highScoresList.map((score, index) => (
-                      <Description key={index}>{score.name} - {score.score}</Description>
-                    ))
+                  {isLoading ? (
+                    <TargetsSubContainer>
+                      <LoadingCircle />
+                      <Description>Loading...</Description>
+                    </TargetsSubContainer>
                   ) : (
-                    <Description>No high scores available</Description>
+                    <>
+                      {highScoresList.length > 0 ? (
+                        highScoresList.map((score, index) => (
+                          <Description key={index}>
+                            {score.name} - {score.score}
+                          </Description>
+                        ))
+                      ) : (
+                        <Description>No high scores available</Description>
+                      )}
+                    </>
                   )}
                 </ScoresContainer>
                 <Button onClick={handleViewHighscoresClick}>Return</Button>

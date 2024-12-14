@@ -260,8 +260,9 @@ export const Form = styled.form`
 
 export const Input = styled.input`
   caret-color: transparent;
+  width: 200px;
   padding: 15px 15px 10px 15px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   margin-top: 5px;
   background-color: lightgray;
   border: none;

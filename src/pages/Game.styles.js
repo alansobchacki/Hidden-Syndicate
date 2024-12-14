@@ -172,7 +172,7 @@ export const GameGuessForm = styled.div`
   gap: 10px;
   text-align: center;
   width: 200px;
-  height: 200px;
+  height: 250px;
   border-radius: 6px;
   background-color: #332f35;
   border: 4px solid #665f6c;
@@ -190,7 +190,7 @@ export const GameGuessFormSubContainer = styled.div`
   align-items: center;
   gap: 10px;
   padding-left: 10px;
-  transition: background-color 0.8s ease;
+  transition: all 1s ease;
 
   background-color: ${(props) => (props.guessed ? "#207549" : "none")};
   pointer-events: ${(props) => (props.guessed ? "none" : "auto")};

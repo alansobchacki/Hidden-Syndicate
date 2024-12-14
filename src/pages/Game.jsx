@@ -31,6 +31,7 @@ function Game() {
   const [gameStarted, setGameStarted] = useState(false);
   const [gameEnded, setGameEnded] = useState(false);
   const [correctGuesses, setCorrectGuesses] = useState(0);
+  const [guessMessage, setGuessMessage] = useState('Make a guess.');
   const [imageClicked, setImageClicked] = useState(false);
   const [clickX, setClickX] = useState(0);
   const [clickY, setClickY] = useState(0);
@@ -86,7 +87,7 @@ function Game() {
     } catch (error) {
       console.log("Error: " + error.message);
     }
-  }
+  };
 
   const savePlayerScore = async (name, score) => {
     try {
@@ -104,7 +105,7 @@ function Game() {
     } catch (error) {
       console.log("Error: " + error.message);
     }
-  }
+  };
 
   const handleViewHighscoresClick = () => {
     setHighScores(!highScores);
@@ -122,6 +123,7 @@ function Game() {
 
   const handleGuessSubmit = async (name, x, y) => {
     try {
+      setGuessMessage("Loading...");
       const answer = await fetchGuess(name, x, y);
   
       if (answer.isCorrect) {
@@ -131,9 +133,13 @@ function Game() {
             target.name === name ? { ...target, guessed: true } : target
           )
         );
+        displayMessage("Target found!", 4000);
+      } else {
+        displayMessage("Wrong. Try again.", 5000);
       }
 
     } catch (error) {
+      displayMessage("Bad servers right now...", 7000);
       console.log("Error: " + error.message);
     }
   };
@@ -157,6 +163,14 @@ function Game() {
 
   const handleInputChange = (e) => {
     setPlayerName(e.target.value);
+  };
+
+  const displayMessage = (message, duration) => {
+    setGuessMessage(message);
+  
+    setTimeout(() => {
+      setGuessMessage("Make a guess");
+    }, duration);
   };
   
   const getClickCoordinates = (event) => {
@@ -186,7 +200,7 @@ function Game() {
     setPlayerName('');
     setScore(0);
     setNameError(false);
-  }
+  };
 
   useEffect(() => {
     let interval;
@@ -310,6 +324,7 @@ function Game() {
                     </TargetsSubContainer>
                   </GameGuessFormSubContainer>
                 ))}
+                <Description>{guessMessage}</Description>
               </GameGuessForm>
             </>
           )}

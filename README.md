@@ -41,6 +41,15 @@ These were the project requirements:
 
 ---
 
+### Tech Stack
+- **React**: Front-end framework  
+- **Node.js** & **Express**: Backend API (see [API Repo](https://github.com/alansobchacki/odin-node-wheres-waldo-api))  
+- **PostgreSQL**: Database
+- **Prisma**: ORM
+- **Vercel / Render / Neon**: Hosting and Deployment
+
+---
+
 ### What I Learned
 
 I already knew most of the concepts applied in this project, such as building a database with PostgreSQL, building queries, using an ORM, and fetching data with React.

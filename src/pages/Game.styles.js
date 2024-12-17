@@ -28,13 +28,12 @@ export const MainContainer = styled.div`
 export const DisplayPanelContainer = styled.div`
   height: 100vh;
   overflow: hidden;
+  width: 100%;
 `;
 
 export const DisplayPanel = styled.div`
   position: absolute;
   z-index: 10;
-  width: 60vh;
-  height: 75vh;
   top: 50%;
   left: 50%;
   background-color: #332f35;
@@ -55,7 +54,7 @@ export const Title = styled.h1`
   text-align: center;
   color: #c5bbbb;
   font-family: Title-Font;
-  font-size: 3.5rem;
+  font-size: 4.5rem;
 `;
 
 export const SubTitle = styled.h2`
@@ -70,7 +69,7 @@ export const Description = styled.p`
   color: #e1cfcf;
   font-family: Description-Font;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   text-align: center;
   padding: 5px 5px 0 5px;
 `;
@@ -78,8 +77,8 @@ export const Description = styled.p`
 export const LoadingCircle = styled.div`
   width: 38px;
   height: 38px;
-  border: 4px solid #f3f3f3; /* Light grey background */
-  border-top: 4px solid #3498db; /* Blue color for the spinner */
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
   border-radius: 50%;
   animation: ${spin} 1s linear infinite;
 `;
@@ -89,7 +88,7 @@ export const Button = styled.button`
   align-items: center;
   justify-content: center;
   padding-top: 5px;
-  width: 200px;
+  width: 50%;
   height: 50px;
   font-family: 'Description-Font';
   font-weight: 700;
@@ -108,11 +107,11 @@ export const Button = styled.button`
   }
 
   &:disabled {
-    background-color: #b3b3b3; /* Lighter background when disabled */
-    color: #665f6c; /* Slightly darker text */
-    border-color: #b3b3b3; /* Lighter border color */
-    cursor: not-allowed; /* Change cursor to indicate it’s disabled */
-    opacity: 0.6; /* Slightly transparent to give a disabled effect */
+    background-color: #b3b3b3;
+    color: #665f6c;
+    border-color: #b3b3b3;
+    cursor: not-allowed;
+    opacity: 0.6;
   }
 `;
 
@@ -146,6 +145,7 @@ export const ScoresContainer = styled.div`
 export const GameContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 
 export const Header = styled.div`
@@ -197,8 +197,7 @@ export const GameGuessForm = styled.div`
   position: fixed;
   gap: 10px;
   text-align: center;
-  width: 200px;
-  height: 250px;
+  width: 215px;
   border-radius: 6px;
   background-color: #332f35;
   border: 4px solid #665f6c;
@@ -260,7 +259,7 @@ export const Form = styled.form`
 
 export const Input = styled.input`
   caret-color: transparent;
-  width: 200px;
+  width: 50%;
   padding: 15px 15px 10px 15px;
   margin-bottom: 10px;
   margin-top: 5px;

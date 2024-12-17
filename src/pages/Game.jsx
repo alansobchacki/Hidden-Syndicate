@@ -238,7 +238,6 @@ function Game() {
   return (
     <MainContainer>
       <Header isVisible={gameStarted}>
-        <Description>Click anywhere on the image to find your targets.</Description>
         <TargetsHeaderContainer>
           {targetsList.map((target, index) => (
             <TargetsSubContainer key={index} guessed={target.guessed}>

@@ -1,4 +1,4 @@
-Project: Where's Waldo
+Hidden Syndicate
 =============
 
 A React Photo Tagging App that plays like a Where's Waldo game.
